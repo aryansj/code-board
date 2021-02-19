@@ -1,6 +1,7 @@
 import React from "react";
 import Content from "./Content.js";
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import backgroundimg from "./background.jpg";
 class ImportCode extends React.Component {
   constructor(props) {
     super(props);
@@ -11,10 +12,10 @@ class ImportCode extends React.Component {
     this.state.currentIndex = Math.floor(Math.random() * 4);
     this.state.formVisible = false;
     this.state.nextIndex = Math.floor(Math.random() * 4);
-    this.state.isPlaying=false;
+    this.state.isPlaying = false;
     this.state.highlightChar = -1;
     this.state.timeleft = 15000;
-    this.state.tries=0;
+    this.state.tries = 0;
     this.handleLine = this.handleLine.bind(this);
     this.createform = this.createform.bind(this);
     this.startTime = this.startTime.bind(this);
@@ -81,13 +82,13 @@ class ImportCode extends React.Component {
       correctChar: 0,
       currentValue: "",
       highlightChar: -1,
-      tries:this.state.tries+1
+      tries: this.state.tries + 1,
     });
-     this.state.isPlaying=true;
+    this.state.isPlaying = true;
     setTimeout(() => {
       this.setState({
         formVisible: false,
-        isPlaying:false
+        isPlaying: false,
       });
     }, 15000);
   }
@@ -107,33 +108,33 @@ class ImportCode extends React.Component {
     return (
       <div className={classes}>
         <p className={classes}>
-          <span class="text-green-600">{firstHalf}</span>
+          <span class="text-indigo-500">{firstHalf}</span>
           <span class="">{secondHalf}</span>
         </p>
         <p className={classes}>{Content[this.state.nextIndex]}</p>
         {this.renderInput()}
         <CountdownCircleTimer
-      isPlaying={this.state.isPlaying}
-      duration={15}
-      colors={[
-        ['#004777', 0.33],
-        ['#F7B801', 0.33],
-        ['#A30000', 0.33],
-      ]}
-    >
-      {({ remainingTime }) => remainingTime}
-    </CountdownCircleTimer>
+          isPlaying={this.state.isPlaying}
+          duration={15}
+          colors={[
+            ["#004777", 0.33],
+            ["#F7B801", 0.33],
+            ["#A30000", 0.33],
+          ]}
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
       </div>
     );
   }
   render() {
     return (
-      <div>
+      <div class=" text-mono bg-black text-white h-screen">
         <div>{this.createform()}</div>
-        <button onClick={this.startTime}>Let's do this</button>
-        {
-          (this.state.tries&& (!this.state.formVisible)) ? this.renderScore():''
-        }      
+        <button class="block" onClick={this.startTime}>
+          Let's go
+        </button>
+        {this.state.tries && !this.state.formVisible ? this.renderScore() : ""}
       </div>
     );
   }
