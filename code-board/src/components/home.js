@@ -1,5 +1,6 @@
 import React from "react";
 import Content from "./Content.js";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 class ImportCode extends React.Component {
   constructor(props) {
     super(props);
@@ -10,8 +11,10 @@ class ImportCode extends React.Component {
     this.state.currentIndex = Math.floor(Math.random() * 4);
     this.state.formVisible = false;
     this.state.nextIndex = Math.floor(Math.random() * 4);
+    this.state.isPlaying=false;
     this.state.highlightChar = -1;
     this.state.timeleft = 15000;
+    this.state.tries=0;
     this.handleLine = this.handleLine.bind(this);
     this.createform = this.createform.bind(this);
     this.startTime = this.startTime.bind(this);
@@ -78,12 +81,14 @@ class ImportCode extends React.Component {
       correctChar: 0,
       currentValue: "",
       highlightChar: -1,
+      tries:this.state.tries+1
     });
+     this.state.isPlaying=true;
     setTimeout(() => {
       this.setState({
         formVisible: false,
+        isPlaying:false
       });
-      console.log(this.state.correctChar);
     }, 15000);
   }
   createform() {
@@ -99,26 +104,36 @@ class ImportCode extends React.Component {
       this.state.highlightChar + 1,
       Content[this.state.currentIndex].length
     );
-    console.log(secondHalf);
     return (
-      <div>
+      <div className={classes}>
         <p className={classes}>
           <span class="text-green-600">{firstHalf}</span>
           <span class="">{secondHalf}</span>
         </p>
         <p className={classes}>{Content[this.state.nextIndex]}</p>
         {this.renderInput()}
-        <p>{this.state.timeleft}</p>
+        <CountdownCircleTimer
+      isPlaying={this.state.isPlaying}
+      duration={15}
+      colors={[
+        ['#004777', 0.33],
+        ['#F7B801', 0.33],
+        ['#A30000', 0.33],
+      ]}
+    >
+      {({ remainingTime }) => remainingTime}
+    </CountdownCircleTimer>
       </div>
     );
   }
-
   render() {
     return (
       <div>
         <div>{this.createform()}</div>
         <button onClick={this.startTime}>Let's do this</button>
-        <p></p>
+        {
+          (this.state.tries&& (!this.state.formVisible)) ? this.renderScore():''
+        }      
       </div>
     );
   }
