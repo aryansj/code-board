@@ -1,6 +1,7 @@
 import React from "react";
 import Content from "./Content.js";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import Header from "./header.js";
 import backgroundimg from "./background.jpg";
 class ImportCode extends React.Component {
   constructor(props) {
@@ -129,10 +130,11 @@ class ImportCode extends React.Component {
   }
   render() {
     return (
-      <div class=" text-mono bg-black text-white h-screen">
+      <div class=" overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300 text-white h-screen">
+        <Header />
         <div>{this.createform()}</div>
         <button class="block" onClick={this.startTime}>
-          Let's go
+          Let's go!
         </button>
         {this.state.tries && !this.state.formVisible ? this.renderScore() : ""}
       </div>
