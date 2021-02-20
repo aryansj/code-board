@@ -15,8 +15,9 @@ class ImportCode extends React.Component {
     this.state.nextIndex = Math.floor(Math.random() * 4);
     this.state.isPlaying = false;
     this.state.highlightChar = -1;
-    this.state.timeleft = 15000;
+    this.state.timeleft = 10000;
     this.state.tries = 0;
+    this.state.duration = 10;
     this.handleLine = this.handleLine.bind(this);
     this.createform = this.createform.bind(this);
     this.startTime = this.startTime.bind(this);
@@ -30,7 +31,7 @@ class ImportCode extends React.Component {
   }
 
   renderInput() {
-    var classes = "py-3 px-4 w-full ";
+    var classes = "py-3 px-4 w-full text-mono bg-white text-black ";
     if (!this.state.formVisible) {
       classes = classes + "hidden ";
     }
@@ -78,23 +79,27 @@ class ImportCode extends React.Component {
     );
   }
   startTime() {
+    setKey(prevKey => 
+      {prevKey + 1})
     this.setState({
       formVisible: true,
       correctChar: 0,
       currentValue: "",
       highlightChar: -1,
       tries: this.state.tries + 1,
+      isPlaying:true,
     });
     this.state.isPlaying = true;
     setTimeout(() => {
       this.setState({
         formVisible: false,
         isPlaying: false,
+        duration:10,
       });
-    }, 15000);
+    }, 10000);
   }
   createform() {
-    var classes = "py-3 px-4 w-full ";
+    var classes = "py-3 px-4 w-full text-mono bg-white text-black ";
     if (!this.state.formVisible) {
       classes = classes + "hidden ";
     }
@@ -116,7 +121,8 @@ class ImportCode extends React.Component {
         {this.renderInput()}
         <CountdownCircleTimer
           isPlaying={this.state.isPlaying}
-          duration={15}
+          duration={this.state.duration}
+          key={key}
           colors={[
             ["#004777", 0.33],
             ["#F7B801", 0.33],
@@ -130,12 +136,12 @@ class ImportCode extends React.Component {
   }
   render() {
     return (
-      <div class=" overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300 text-white h-screen">
+      <div class="text-center items-center flex flex-col overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300 text-white h-screen">
         <Header />
         <div>{this.createform()}</div>
-        <button class="block" onClick={this.startTime}>
-          Let's go!
-        </button>
+          <div class="text-center items-center flex flex-col"><button class="block accent text-center" onClick={this.startTime}>
+            Let's go!
+        </button></div>
         {this.state.tries && !this.state.formVisible ? this.renderScore() : ""}
       </div>
     );
