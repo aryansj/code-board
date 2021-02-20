@@ -10,6 +10,7 @@ class ImportCode extends React.Component {
     this.state.array = [];
     this.state.currentValue = "";
     this.state.correctChar = 0;
+    this.state.key = 1;
     this.state.currentIndex = Math.floor(Math.random() * 4);
     this.state.formVisible = false;
     this.state.nextIndex = Math.floor(Math.random() * 4);
@@ -17,7 +18,7 @@ class ImportCode extends React.Component {
     this.state.highlightChar = -1;
     this.state.timeleft = 10000;
     this.state.tries = 0;
-    this.state.duration = 10;
+    this.state.currentTimer = "";
     this.handleLine = this.handleLine.bind(this);
     this.createform = this.createform.bind(this);
     this.startTime = this.startTime.bind(this);
@@ -79,27 +80,26 @@ class ImportCode extends React.Component {
     );
   }
   startTime() {
-    setKey(prevKey => 
-      {prevKey + 1})
+    clearTimeout(this.state.currentTimer);
     this.setState({
       formVisible: true,
       correctChar: 0,
       currentValue: "",
       highlightChar: -1,
+      key: this.state.key + 1,
       tries: this.state.tries + 1,
-      isPlaying:true,
+      isPlaying: true,
     });
     this.state.isPlaying = true;
-    setTimeout(() => {
+    this.state.currentTimer = setTimeout(() => {
       this.setState({
         formVisible: false,
         isPlaying: false,
-        duration:10,
       });
     }, 10000);
   }
   createform() {
-    var classes = "py-3 px-4 w-full text-mono bg-white text-black ";
+    var classes = "py-3 px-4 w-full text-mono  bg-white text-black ";
     if (!this.state.formVisible) {
       classes = classes + "hidden ";
     }
@@ -113,16 +113,16 @@ class ImportCode extends React.Component {
     );
     return (
       <div className={classes}>
-        <p className={classes}>
+        <p class="m-3">
           <span class="text-indigo-500">{firstHalf}</span>
           <span class="">{secondHalf}</span>
         </p>
-        <p className={classes}>{Content[this.state.nextIndex]}</p>
+        <p>{Content[this.state.nextIndex]}</p>
         {this.renderInput()}
         <CountdownCircleTimer
           isPlaying={this.state.isPlaying}
-          duration={this.state.duration}
-          key={key}
+          duration={10}
+          key={this.state.key}
           colors={[
             ["#004777", 0.33],
             ["#F7B801", 0.33],
@@ -136,12 +136,14 @@ class ImportCode extends React.Component {
   }
   render() {
     return (
-      <div class="text-center items-center flex flex-col overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300 text-white h-screen">
+      <div class="text-center items-center flex flex-col overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300  h-screen">
         <Header />
         <div>{this.createform()}</div>
-          <div class="text-center items-center flex flex-col"><button class="block accent text-center" onClick={this.startTime}>
+        <div class="text-center items-center w-1/2 flex flex-col">
+          <button class="block accent text-center" onClick={this.startTime}>
             Let's go!
-        </button></div>
+          </button>
+        </div>
         {this.state.tries && !this.state.formVisible ? this.renderScore() : ""}
       </div>
     );
