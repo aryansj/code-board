@@ -99,7 +99,7 @@ class ImportCode extends React.Component {
     }, 10000);
   }
   createform() {
-    var classes = "py-3 px-4 w-full text-mono  bg-white text-black ";
+    var classes = "py-3 px-4 text-mono flex flex-col bg-white text-black ";
     if (!this.state.formVisible) {
       classes = classes + "hidden ";
     }
@@ -112,21 +112,22 @@ class ImportCode extends React.Component {
       Content[this.state.currentIndex].length
     );
     return (
-      <div className={classes}>
-        <p class="m-3">
+      <div className={classes +"container w-2/3 border-double border-8 border-black rounded-lg"}>
+        <p class="container w-full text-left p-4 font-mono text-3xl font-bold">
           <span class="text-indigo-500">{firstHalf}</span>
           <span class="">{secondHalf}</span>
         </p>
-        <p>{Content[this.state.nextIndex]}</p>
+        <p class="text-left p-4 font-mono text-gray-500">{Content[this.state.nextIndex]}</p>
         {this.renderInput()}
         <CountdownCircleTimer
           isPlaying={this.state.isPlaying}
           duration={10}
           key={this.state.key}
+          size={100}
           colors={[
-            ["#004777", 0.33],
-            ["#F7B801", 0.33],
-            ["#A30000", 0.33],
+            ["#000000", 0.33],
+            ["#000000", 0.33],
+            ["#000000", 0.33],
           ]}
         >
           {({ remainingTime }) => remainingTime}
@@ -136,9 +137,9 @@ class ImportCode extends React.Component {
   }
   render() {
     return (
-      <div class="text-center items-center flex flex-col overflow-hidden text-mono bg-gradient-to-t from-pink-200 to-blue-300  h-screen">
+      <div class="text-center items-center flex flex-col overflow-hidden text-mono bg-green-200  h-screen">
         <Header />
-        <div>{this.createform()}</div>
+        <div class="w-full text-center items-center flex flex-col container">{this.createform()}</div>
         <div class="text-center items-center w-1/2 flex flex-col">
           <button class="block accent text-center" onClick={this.startTime}>
             Let's go!
